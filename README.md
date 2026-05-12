@@ -1,395 +1,205 @@
 # codex_pet_Jane1
 
-Jane1 Pet is a small animated desktop companion. It floats above your desktop, can be dragged around, and plays Jane1's idle, waving, working, waiting, jumping, running, review, and failed animations.
-
-Jane1 Pet 是一个可爱的桌面宠物应用。它会悬浮在桌面上，可以拖动位置，并支持 Jane1 的待机、招手、工作、等待、跳跃、跑动、待查看和失败反馈等动作。
-
-![Jane1 action sheet](docs/screenshots/all-actions.png)
+![Jane1 preview](preview/all-actions.png)
 
 ## English
 
-### Features
+Jane1 is a one-click installable **Codex pet theme**. It is not a standalone desktop app and does not include an `.exe`. After installation, Jane1 appears inside Codex's appearance or pet settings.
 
-- Transparent frameless desktop pet window.
-- Always-on-top companion that can be dragged around.
-- Built-in Jane1 animation frames under `assets/sprites`.
-- Tray menu for quick actions.
-- Windows and macOS packaging through Electron Builder.
-- GitHub Actions workflow for release builds.
+### Install
 
-### Quick Install
+#### Windows One-Line Install
 
-There are two ways to use Jane1:
+Open PowerShell and run:
 
-- Codex appearance pet: install `codex-pet/jane1` into your Codex pets folder.
-- Standalone desktop app: download or build the Electron app.
-
-For Codex, copy this folder:
-
-```text
-codex-pet/jane1/
+```powershell
+irm https://raw.githubusercontent.com/Jingmo35/codex_pet_Jane1/main/scripts/install-windows.ps1 | iex
 ```
 
-to:
+Restart Codex, then choose **Jane1** in the appearance or pet settings.
+
+#### macOS One-Line Install
+
+Open Terminal and run:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Jingmo35/codex_pet_Jane1/main/scripts/install-macos.sh | bash
+```
+
+Restart Codex, then choose **Jane1** in the appearance or pet settings.
+
+#### Manual Install
+
+Download this folder:
+
+```text
+pet/jane1/
+```
+
+Copy it to your Codex pets directory:
 
 ```text
 Windows: C:\Users\<your-user-name>\.codex\pets\jane1
 macOS:   ~/.codex/pets/jane1
 ```
 
-Then restart Codex and select Jane1 in the appearance or pet settings.
-
-For the standalone app, download a release package from GitHub Releases:
-
-1. Open the repository Releases page.
-2. Download the package for your system.
-3. Run Jane1 Pet.
-
-Recommended files:
-
-- Windows installer: `Jane1 Pet-*-win-x64.exe`
-- Windows portable app: `Jane1 Pet-*-win-x64.exe` or `*.zip`, depending on the release asset
-- macOS disk image: `Jane1 Pet-*-mac-x64.dmg` or `Jane1 Pet-*-mac-arm64.dmg`
-- macOS zip app: `Jane1 Pet-*-mac-*.zip`
-
-### Windows Installation Methods
-
-#### Method 1: Installer
-
-Download the Windows NSIS installer from Releases and run it:
-
-```powershell
-Jane1-Pet-0.1.0-win-x64.exe
-```
-
-Choose the install directory, then launch Jane1 Pet from the Start Menu or desktop shortcut.
-
-#### Method 2: Portable Version
-
-Download the portable Windows build from Releases, place it anywhere, and double-click it. This is useful when you do not want to install the app.
-
-#### Method 3: Run from Source
-
-Install Node.js 20 or newer, then run:
-
-```powershell
-git clone https://github.com/your-name/codex_pet_Jane1.git
-cd codex_pet_Jane1
-npm install
-npm run dev
-```
-
-#### Method 4: Build Locally
-
-```powershell
-npm install
-npm run dist:win
-```
-
-The generated installer, portable build, and zip package will be in `dist/`.
-
-### macOS Installation Methods
-
-#### Method 1: DMG
-
-Download the `.dmg` file from Releases, open it, and drag Jane1 Pet into Applications.
-
-If macOS blocks the app because it is unsigned, open it from:
+The final installed folder should contain exactly:
 
 ```text
-System Settings -> Privacy & Security -> Open Anyway
+jane1/
+  pet.json
+  spritesheet.webp
 ```
 
-#### Method 2: ZIP App
+### Uninstall
 
-Download the macOS zip file, unzip it, and move `Jane1 Pet.app` into Applications.
+Windows:
 
-If needed, clear the quarantine flag:
+```powershell
+irm https://raw.githubusercontent.com/Jingmo35/codex_pet_Jane1/main/scripts/uninstall-windows.ps1 | iex
+```
+
+macOS:
 
 ```bash
-xattr -dr com.apple.quarantine "/Applications/Jane1 Pet.app"
+curl -fsSL https://raw.githubusercontent.com/Jingmo35/codex_pet_Jane1/main/scripts/uninstall-macos.sh | bash
 ```
 
-#### Method 3: Run from Source
-
-Install Node.js 20 or newer, then run:
-
-```bash
-git clone https://github.com/your-name/codex_pet_Jane1.git
-cd codex_pet_Jane1
-npm install
-npm run dev
-```
-
-#### Method 4: Build Locally
-
-```bash
-npm install
-npm run dist:mac
-```
-
-The generated `.dmg` and `.zip` files will be in `dist/`.
-
-### Developer Commands
-
-```bash
-npm run dev        # Start Jane1 Pet in development mode
-npm run lint:json  # Validate that every animation frame exists
-npm run pack       # Create an unpacked app directory
-npm run dist       # Build release packages for the current OS
-```
-
-### Project Structure
+### What This Repository Contains
 
 ```text
 codex_pet_Jane1/
-  codex-pet/
+  pet/
     jane1/
       pet.json
       spritesheet.webp
-  assets/
-    actions.json
-    sprites/
-      idle/
-      running/
-      review/
-      failed/
-      waiting/
-      jumping/
-      running-right/
-      waving/
-      running-left/
-  docs/screenshots/
-  src/
-    main.js
-    preload.js
-    renderer.html
-    renderer.js
-    styles.css
+  preview/
+    all-actions.png
   scripts/
-    validate-actions.js
+    install-windows.ps1
+    install-macos.sh
+    uninstall-windows.ps1
+    uninstall-macos.sh
 ```
 
-### Release Workflow
+### Pet Package Format
 
-To build release packages automatically:
+Codex pets use a very small package format:
 
-1. Push the project to GitHub.
-2. Create a version tag:
+- `pet.json`: metadata that tells Codex the pet id, display name, description, and spritesheet file.
+- `spritesheet.webp`: the full animation atlas used by Codex.
 
-```bash
-git tag v0.1.0
-git push origin v0.1.0
+This package currently includes Jane1 states such as idle, running, waving, jumping, sleeping/waiting, review, and failed.
+
+### Release Download
+
+GitHub Releases provide a zip package:
+
+```text
+jane1-codex-pet.zip
 ```
 
-3. GitHub Actions will build Windows and macOS artifacts.
-4. Download the artifacts from the workflow run and upload them to a GitHub Release.
-
-### Asset Notes
-
-Jane1 animation frames are stored as PNG files in `assets/sprites`. The app reads `assets/actions.json`, so all paths must stay relative to the project root.
-
-The Codex appearance pet package is stored in `codex-pet/jane1`. It contains only the files Codex needs: `pet.json` and `spritesheet.webp`.
-
-If you add a new action:
-
-1. Add a new folder under `assets/sprites/<action-id>/`.
-2. Put frames named `00.png`, `01.png`, and so on.
-3. Add the action to `assets/actions.json`.
-4. Run `npm run lint:json`.
+Extract the zip and copy the `jane1` folder into your Codex pets directory.
 
 ## 中文
 
-### 功能
+Jane1 是一个可以一键安装的 **Codex 外观宠物包**。它不是独立桌面应用，也不包含 `.exe`。安装后，Jane1 会出现在 Codex 的外观或宠物设置中。
 
-- 透明无边框桌面宠物窗口。
-- 始终置顶，可拖动。
-- 内置 Jane1 动作帧，位于 `assets/sprites`。
-- 托盘菜单可快速切换动作。
-- 支持用 Electron Builder 打包 Windows 和 macOS 应用。
-- 内置 GitHub Actions，可自动构建发布包。
+### 安装
 
-### 快速安装
+#### Windows 一键安装
 
-Jane1 有两种使用方式：
+打开 PowerShell，运行：
 
-- Codex 外观宠物版：把 `codex-pet/jane1` 安装到 Codex 的 pets 目录。
-- 独立桌面应用版：下载或自行打包 Electron 应用。
-
-Codex 外观宠物版安装方法：
-
-```text
-复制 codex-pet/jane1/
+```powershell
+irm https://raw.githubusercontent.com/Jingmo35/codex_pet_Jane1/main/scripts/install-windows.ps1 | iex
 ```
 
-到：
+然后重启 Codex，在外观或宠物设置里选择 **Jane1**。
+
+#### macOS 一键安装
+
+打开 Terminal，运行：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Jingmo35/codex_pet_Jane1/main/scripts/install-macos.sh | bash
+```
+
+然后重启 Codex，在外观或宠物设置里选择 **Jane1**。
+
+#### 手动安装
+
+下载这个文件夹：
+
+```text
+pet/jane1/
+```
+
+复制到你的 Codex pets 目录：
 
 ```text
 Windows: C:\Users\<你的用户名>\.codex\pets\jane1
 macOS:   ~/.codex/pets/jane1
 ```
 
-然后重启 Codex，在外观或宠物设置里选择 Jane1。
-
-如果要使用独立桌面应用版，可以从 GitHub Releases 下载已经打好的安装包：
-
-1. 打开项目的 Releases 页面。
-2. 下载适合你系统的文件。
-3. 运行 Jane1 Pet。
-
-推荐下载：
-
-- Windows 安装包：`Jane1 Pet-*-win-x64.exe`
-- Windows 便携版：Release 中的 portable 或 zip 文件
-- macOS 安装镜像：`Jane1 Pet-*-mac-x64.dmg` 或 `Jane1 Pet-*-mac-arm64.dmg`
-- macOS 压缩包：`Jane1 Pet-*-mac-*.zip`
-
-### Windows 安装方法
-
-#### 方法一：安装包
-
-从 Releases 下载 Windows 安装包并运行：
-
-```powershell
-Jane1-Pet-0.1.0-win-x64.exe
-```
-
-安装时可以选择目录。安装完成后，可以从开始菜单或桌面快捷方式启动。
-
-#### 方法二：便携版
-
-从 Releases 下载便携版，把文件放到任意目录后双击运行。这个方法不需要安装，适合临时体验。
-
-#### 方法三：从源码运行
-
-先安装 Node.js 20 或更高版本，然后运行：
-
-```powershell
-git clone https://github.com/your-name/codex_pet_Jane1.git
-cd codex_pet_Jane1
-npm install
-npm run dev
-```
-
-#### 方法四：本地打包 Windows 安装包
-
-```powershell
-npm install
-npm run dist:win
-```
-
-生成的安装包、便携版和 zip 文件会在 `dist/` 目录中。
-
-### macOS 安装方法
-
-#### 方法一：DMG 安装
-
-从 Releases 下载 `.dmg` 文件，打开后把 Jane1 Pet 拖入 Applications。
-
-如果 macOS 提示应用未签名，可以到这里允许打开：
+最终目录里应该只有这两个核心文件：
 
 ```text
-系统设置 -> 隐私与安全性 -> 仍要打开
+jane1/
+  pet.json
+  spritesheet.webp
 ```
 
-#### 方法二：ZIP 版本
+### 卸载
 
-下载 macOS zip 文件，解压后把 `Jane1 Pet.app` 移动到 Applications。
+Windows：
 
-如果系统阻止打开，可以执行：
+```powershell
+irm https://raw.githubusercontent.com/Jingmo35/codex_pet_Jane1/main/scripts/uninstall-windows.ps1 | iex
+```
+
+macOS：
 
 ```bash
-xattr -dr com.apple.quarantine "/Applications/Jane1 Pet.app"
+curl -fsSL https://raw.githubusercontent.com/Jingmo35/codex_pet_Jane1/main/scripts/uninstall-macos.sh | bash
 ```
 
-#### 方法三：从源码运行
-
-先安装 Node.js 20 或更高版本，然后运行：
-
-```bash
-git clone https://github.com/your-name/codex_pet_Jane1.git
-cd codex_pet_Jane1
-npm install
-npm run dev
-```
-
-#### 方法四：本地打包 macOS 应用
-
-```bash
-npm install
-npm run dist:mac
-```
-
-生成的 `.dmg` 和 `.zip` 文件会在 `dist/` 目录中。
-
-### 开发命令
-
-```bash
-npm run dev        # 开发模式启动 Jane1 Pet
-npm run lint:json  # 检查所有动作图片是否存在
-npm run pack       # 生成未压缩的应用目录
-npm run dist       # 为当前系统生成发布包
-```
-
-### 项目结构
+### 仓库内容
 
 ```text
 codex_pet_Jane1/
-  codex-pet/
+  pet/
     jane1/
       pet.json
       spritesheet.webp
-  assets/
-    actions.json
-    sprites/
-      idle/
-      running/
-      review/
-      failed/
-      waiting/
-      jumping/
-      running-right/
-      waving/
-      running-left/
-  docs/screenshots/
-  src/
-    main.js
-    preload.js
-    renderer.html
-    renderer.js
-    styles.css
+  preview/
+    all-actions.png
   scripts/
-    validate-actions.js
+    install-windows.ps1
+    install-macos.sh
+    uninstall-windows.ps1
+    uninstall-macos.sh
 ```
 
-### 发布流程
+### Codex Pet 包格式
 
-自动构建发布包的方法：
+Codex pet 的格式很简单：
 
-1. 把项目推送到 GitHub。
-2. 创建版本标签：
+- `pet.json`：告诉 Codex 宠物 id、显示名称、描述和精灵图文件名。
+- `spritesheet.webp`：Codex 使用的完整动作精灵图。
 
-```bash
-git tag v0.1.0
-git push origin v0.1.0
+当前 Jane1 包含待机、跑动、招手、跳跃、睡觉/等待、待查看、失败反馈等状态。
+
+### Release 下载
+
+GitHub Releases 会提供 zip 包：
+
+```text
+jane1-codex-pet.zip
 ```
 
-3. GitHub Actions 会自动构建 Windows 和 macOS 包。
-4. 从 Actions 页面下载构建产物，再上传到 GitHub Release。
-
-### 素材说明
-
-Jane1 的动作帧保存在 `assets/sprites`。应用通过 `assets/actions.json` 读取动作，因此路径必须保持项目内相对路径，不能写成本机绝对路径。
-
-Codex 外观宠物包保存在 `codex-pet/jane1`，里面只有 Codex 需要的两个文件：`pet.json` 和 `spritesheet.webp`。
-
-如果要新增动作：
-
-1. 在 `assets/sprites/<action-id>/` 新建动作目录。
-2. 放入 `00.png`、`01.png` 等连续帧。
-3. 在 `assets/actions.json` 中添加动作配置。
-4. 运行 `npm run lint:json` 检查素材。
+解压后，把 `jane1` 文件夹复制到 Codex pets 目录即可。
 
 ## License
 
-Code is released under the MIT License. Make sure you have the right to publish and redistribute the Jane1 artwork before making the repository public.
+MIT License. Please make sure you have the right to publish and redistribute the Jane1 artwork before redistributing modified versions.

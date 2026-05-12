@@ -1,12 +1,5 @@
-node_modules/
-dist/
-build/
-out/
+*.zip
 *.log
 .DS_Store
 Thumbs.db
 *.tmp
-backups/
-assets/spritesheet.png
-docs/screenshots/*history.png
-docs/screenshots/validation-*.json

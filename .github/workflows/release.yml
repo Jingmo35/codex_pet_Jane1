@@ -1,4 +1,4 @@
-name: Build release packages
+name: Package Codex pet
 
 on:
   workflow_dispatch:
@@ -6,34 +6,36 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+
 jobs:
-  build:
-    name: Build on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest]
+  package:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - name: Validate package files
+        run: |
+          test -f pet/jane1/pet.json
+          test -f pet/jane1/spritesheet.webp
+          test -f preview/all-actions.png
 
-      - name: Install dependencies
-        run: npm install
+      - name: Create zip package
+        run: |
+          cd pet
+          zip -r ../jane1-codex-pet.zip jane1
 
-      - name: Validate assets
-        run: npm run lint:json
-
-      - name: Build packages
-        run: npm run dist
-
-      - name: Upload artifacts
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: jane1-pet-${{ matrix.os }}
-          path: dist/*
+          name: jane1-codex-pet
+          path: jane1-codex-pet.zip
+
+      - name: Attach to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: jane1-codex-pet.zip
