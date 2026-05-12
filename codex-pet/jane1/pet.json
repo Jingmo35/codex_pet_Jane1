@@ -1,0 +1,6 @@
+{
+  "id": "jane1",
+  "displayName": "Jane1",
+  "description": "A cute chibi Codex desktop pet with idle, sleeping, running, jumping, review, and failure states.",
+  "spritesheetPath": "spritesheet.webp"
+}

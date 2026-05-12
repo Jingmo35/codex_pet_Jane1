@@ -68,7 +68,7 @@
     {
       "id": "waiting",
       "name": "Waiting",
-      "nameZh": "等待用户确认",
+      "nameZh": "睡觉休息",
       "fps": 6,
       "loop": true,
       "frames": [
